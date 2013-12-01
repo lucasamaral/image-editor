@@ -7,8 +7,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 import org.gui.AppScreen;
 
