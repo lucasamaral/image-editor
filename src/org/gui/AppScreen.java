@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 
+import org.listeners.CropListener;
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
 import org.listeners.RotClockImageListener;
@@ -25,8 +26,8 @@ import org.listeners.effects.FrameImageListener;
 import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
 import org.listeners.effects.OldImageListener;
-
-
+import org.listeners.effects.ToggleCropListener;
+import org.transform.ImageTransform;
 
 public class AppScreen extends JFrame {
 
@@ -34,6 +35,8 @@ public class AppScreen extends JFrame {
 
 	private ImagePanel imagePanel;
 	private LeftPanel leftPanel;
+
+	private boolean cropping;
 
 	public AppScreen() {
 		initEverything();
@@ -55,7 +58,7 @@ public class AppScreen extends JFrame {
 		this.imagePanel = new ImagePanel(original);
 
 		getContentPane().add(this.imagePanel);
-		
+
 		JMenuBar blueMenuBar = new JMenuBar();
 		JMenu file = new JMenu("Arquivo");
 		JMenuItem loadImage = new JMenuItem("Carregar Imagem");
@@ -70,24 +73,38 @@ public class AppScreen extends JFrame {
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));
 		setJMenuBar(blueMenuBar);
 
+		CropListener cl = new CropListener(this, this.imagePanel);
+
+		this.imagePanel.addMouseListener(cl);
+		this.imagePanel.addMouseMotionListener(cl);
+
 		this.leftPanel = new LeftPanel();
 		addActionsToButtons();
 		add(this.leftPanel, BorderLayout.WEST);
-		
+
 		pack();
 		setVisible(true);
 	}
 
 	private void addActionsToButtons() {
-		this.leftPanel.getGrayButton().addActionListener(new GrayImageListener(this));
-		this.leftPanel.getOldButton().addActionListener(new OldImageListener(this));
-		this.leftPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
-		this.leftPanel.getFrameButton().addActionListener(new FrameImageListener(this));
-		this.leftPanel.getRotateClockwise().addActionListener(new RotClockImageListener(this));
-		this.leftPanel.getRotateCounterClock().addActionListener(new RotCounterImageListener(this));
-		this.leftPanel.getBrightnessSlider().addChangeListener(new BrightnessChangedListener(this));
+		this.leftPanel.getGrayButton().addActionListener(
+				new GrayImageListener(this));
+		this.leftPanel.getOldButton().addActionListener(
+				new OldImageListener(this));
+		this.leftPanel.getNegativeButton().addActionListener(
+				new NegativeImageListener(this));
+		this.leftPanel.getFrameButton().addActionListener(
+				new FrameImageListener(this));
+		this.leftPanel.getRotateClockwise().addActionListener(
+				new RotClockImageListener(this));
+		this.leftPanel.getRotateCounterClock().addActionListener(
+				new RotCounterImageListener(this));
+		this.leftPanel.getBrightnessSlider().addChangeListener(
+				new BrightnessChangedListener(this));
+		this.leftPanel.getToggleCrop().addActionListener(
+				new ToggleCropListener(this, this.leftPanel.getToggleCrop()));
 	}
-	
+
 	private BufferedImage readImage(String name) {
 		File input = new File(name);
 		try {
@@ -113,14 +130,33 @@ public class AppScreen extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
-	public void setImage(BufferedImage img){
+
+	public void setImage(BufferedImage img) {
 		this.imagePanel.setImage(img);
 		this.imagePanel.repaint();
 	}
-	
-	public BufferedImage getImage(){
+
+	public BufferedImage getImage() {
 		return imagePanel.getImage();
+	}
+
+	public boolean isCropping() {
+		return cropping;
+	}
+
+	public void crop(int x1, int y1, int width, int height) {
+		System.out.println("Tentando: " + x1 + "-" + y1 + "/" + width + "-"
+				+ height);
+		System.out.println("Tamanho da imagem: " + getImage().getWidth() + "-"
+				+ getImage().getHeight());
+		BufferedImage cropped = ImageTransform.cropImage(getImage(), x1, y1,
+				width, height);
+		setImage(cropped);
+		System.out.println("Cropping");
+	}
+
+	public void toggleCropping() {
+		cropping = !cropping;
 	}
 
 }

@@ -103,5 +103,18 @@ public class ImageTransform {
 		int L = (int) Math.round(3 * maxR + 1);
 		return new BufferedImage(L, L, givenImage.getType());
 	}
+
+	public static BufferedImage cropImage(BufferedImage origina, int sx,
+			int sy, int width, int height) {
+		BufferedImage framed = new BufferedImage(width, height, 1);
+		int value;
+		for (int i = sx; i < sx + width; i++) {
+			for (int j = sy; j < sy + height; j++) {
+				value = origina.getRGB(i, j);
+				framed.setRGB(i - sx, j - sy, value);
+			}
+		}
+		return framed;
+	}
 } // x, height-y-1,
 

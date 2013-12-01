@@ -18,6 +18,7 @@ public class LeftPanel extends JPanel {
 	private JButton frameButton;
 	private JButton rotateClockwise;
 	private JButton rotateCounterClock;
+	private JButton toggleCrop;
 	private JSlider brightnessSlider;
 	
 
@@ -30,6 +31,7 @@ public class LeftPanel extends JPanel {
 		frameButton = new JButton("Moldura");
 		rotateClockwise = new JButton("Girar sentido horário");
 		rotateCounterClock = new JButton("Girar sentido anti-horário");
+		toggleCrop = new JButton("Iniciar cropping");
 		
 		
 		
@@ -39,6 +41,7 @@ public class LeftPanel extends JPanel {
 		add(frameButton);
 		add(rotateClockwise);
 		add(rotateCounterClock);
+		add(toggleCrop);
 		
 		brightnessSlider = new JSlider(1, 100);
 		brightnessSlider.setOrientation(JSlider.VERTICAL);
@@ -77,6 +80,10 @@ public class LeftPanel extends JPanel {
 
 	public JSlider getBrightnessSlider() {
 		return brightnessSlider;
+	}
+	
+	public JButton getToggleCrop(){
+		return toggleCrop;
 	}
 	
 }
