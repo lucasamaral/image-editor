@@ -8,6 +8,9 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Stack;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -19,6 +22,7 @@ import javax.swing.WindowConstants;
 import org.listeners.CropListener;
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
+import org.listeners.MenuUndoListener;
 import org.listeners.RotClockImageListener;
 import org.listeners.RotCounterImageListener;
 import org.listeners.effects.BrightnessChangedListener;
@@ -35,6 +39,7 @@ public class AppScreen extends JFrame {
 
 	private ImagePanel imagePanel;
 	private LeftPanel leftPanel;
+	private Stack<BufferedImage> oldImages = new Stack<>();
 
 	private boolean cropping;
 
@@ -60,14 +65,22 @@ public class AppScreen extends JFrame {
 		getContentPane().add(this.imagePanel);
 
 		JMenuBar blueMenuBar = new JMenuBar();
+		
 		JMenu file = new JMenu("Arquivo");
 		JMenuItem loadImage = new JMenuItem("Carregar Imagem");
-		loadImage.addActionListener(new MenuLoadImageListener(this));
 		JMenuItem saveImage = new JMenuItem("Salvar Imagem");
+		loadImage.addActionListener(new MenuLoadImageListener(this));
 		saveImage.addActionListener(new MenuSaveImageListener(this));
 		file.add(loadImage);
 		file.add(saveImage);
+		
+		JMenu edit = new JMenu("Editar");
+		JMenuItem undo = new JMenuItem("Desfazer");
+		undo.addActionListener(new MenuUndoListener(this));
+		edit.add(undo);
+		
 		blueMenuBar.add(file);
+		blueMenuBar.add(edit);
 		blueMenuBar.setOpaque(true);
 		blueMenuBar.setBackground(new Color(43, 43, 43));
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));
@@ -77,6 +90,7 @@ public class AppScreen extends JFrame {
 
 		this.imagePanel.addMouseListener(cl);
 		this.imagePanel.addMouseMotionListener(cl);
+		this.imagePanel.setBackground(Color.GRAY);
 
 		this.leftPanel = new LeftPanel();
 		addActionsToButtons();
@@ -123,8 +137,8 @@ public class AppScreen extends JFrame {
 
 	public void setImage(File f) {
 		try {
-			this.imagePanel.setImage(imageFromFile(f));
-			this.imagePanel.repaint();
+			BufferedImage bi = imageFromFile(f);
+			setImage(bi);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,6 +146,7 @@ public class AppScreen extends JFrame {
 	}
 
 	public void setImage(BufferedImage img) {
+		this.oldImages.push(getImage());
 		this.imagePanel.setImage(img);
 		this.imagePanel.repaint();
 	}
@@ -157,6 +172,16 @@ public class AppScreen extends JFrame {
 
 	public void toggleCropping() {
 		cropping = !cropping;
+	}
+
+	public void undo() {
+		System.out.println("Really undoing");
+		if(!oldImages.empty()){
+			System.out.println("Really really undoing");
+			BufferedImage lastImage = oldImages.pop();
+			this.imagePanel.setImage(lastImage);
+			this.imagePanel.repaint();
+		}
 	}
 
 }
