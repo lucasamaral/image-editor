@@ -1,6 +1,7 @@
 package org.transform;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 
 public class Effects {
@@ -34,11 +35,11 @@ public class Effects {
 		}
 		return gray;
 	}
-	
+
 	public int createRgb(int alpha, int r, int g, int b) {
-        int rgb = (alpha << 24) + (r << 16) + (g << 8) + b;
-        return rgb;
-    }
+		int rgb = (alpha << 24) + (r << 16) + (g << 8) + b;
+		return rgb;
+	}
 
 	public int get_alpha(int rgb) {
 		return (rgb >> 24) & 0xFF;
@@ -56,68 +57,106 @@ public class Effects {
 		return rgb & 0xFF;
 	}
 
-	public BufferedImage oldImage(BufferedImage img, int sepiaIntensity) {
+	public static BufferedImage deepCopy(BufferedImage bi) {
+		ColorModel cm = bi.getColorModel();
+		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		WritableRaster raster = bi.copyData(null);
+		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+	}
+
+	public BufferedImage oldImage(int sepiaIntensity) {
 		int sepiaDepth = 20;
 
-	    int w = img.getWidth();
-	    int h = img.getHeight();
+		BufferedImage old = deepCopy(this.original);
+		int w = old.getWidth();
+		int h = old.getHeight();
 
-	    WritableRaster raster = img.getRaster();
-	    
-	    int[] pixels = new int[w*h*3];
-	    raster.getPixels(0, 0, w, h, pixels);
-	    
-	    for (int i=0;i<pixels.length; i+=3) {
-	        int r = pixels[i];
-	        int g = pixels[i+1];
-	        int b = pixels[i+2];
+		WritableRaster raster = old.getRaster();
 
-	        int gry = (r + g + b) / 3;
-	        r = g = b = gry;
-	        r = r + (sepiaDepth * 2);
-	        g = g + sepiaDepth;
+		int[] pixels = new int[w * h * 3];
+		raster.getPixels(0, 0, w, h, pixels);
 
-	        if (r>255) r=255;
-	        if (g>255) g=255;
-	        if (b>255) b=255;
+		for (int i = 0; i < pixels.length; i += 3) {
+			int r = pixels[i];
+			int g = pixels[i + 1];
+			int b = pixels[i + 2];
 
-	        // cor azul escuro para aumentar o efeito sepia
-	        b-= sepiaIntensity;
+			int gry = (r + g + b) / 3;
+			r = g = b = gry;
+			r = r + (sepiaDepth * 2);
+			g = g + sepiaDepth;
 
-	        // deixando as cores normalizadas
-	        if (b<0) b=0;
-	        if (b>255) b=255;
+			if (r > 255)
+				r = 255;
+			if (g > 255)
+				g = 255;
+			if (b > 255)
+				b = 255;
 
-	        pixels[i] = r;
-	        pixels[i+1]= g;
-	        pixels[i+2] = b;
-	    }
-	    raster.setPixels(0, 0, w, h, pixels);
-		return img;
+			// cor azul escuro para aumentar o efeito sepia
+			b -= sepiaIntensity;
+
+			// deixando as cores normalizadas
+			if (b < 0)
+				b = 0;
+			if (b > 255)
+				b = 255;
+
+			pixels[i] = r;
+			pixels[i + 1] = g;
+			pixels[i + 2] = b;
+		}
+		raster.setPixels(0, 0, w, h, pixels);
+		return old;
 	}
 
-	public BufferedImage negativeImage(BufferedImage img) {
+	public BufferedImage negativeImage() {
 
-		 int w1 = img.getWidth();
-	        int h1 = img.getHeight();
-	        // int value[][] = new int[w1][h1];
-	        BufferedImage gray = new BufferedImage(w1, h1, 1);
-	        int value, alpha, r, g, b;
-	        for (int i = 0; i < w1; i++) {
-	            for (int j = 0; j < h1; j++) {
-	                value = img.getRGB(i, j); // store value
-	                alpha = get_alpha(value);
-	                r = 255 - get_red(value);
-	                g = 255 - get_green(value);
-	                b = 255 - get_blue(value);
+		int w1 = this.original.getWidth();
+		int h1 = this.original.getHeight();
+		
+		BufferedImage negative = new BufferedImage(w1, h1, 1);
+		int value, alpha, r, g, b;
+		for (int i = 0; i < w1; i++) {
+			for (int j = 0; j < h1; j++) {
+				value = this.original.getRGB(i, j);
+				alpha = get_alpha(value);
+				r = 255 - get_red(value);
+				g = 255 - get_green(value);
+				b = 255 - get_blue(value);
 
-	                value = createRgb(alpha, r, g, b);
-	                gray.setRGB(i, j, value);
-	            }
-	        }
-	        return gray;
+				value = createRgb(alpha, r, g, b);
+				negative.setRGB(i, j, value);
+			}
+		}
+		return negative;
 	}
 
+	public BufferedImage addFrame(int rgbValue, int thickness) {
+		
+		int w1 = this.original.getWidth();
+		int h1 = this.original.getHeight();
+		
+		BufferedImage framed = new BufferedImage(w1 + 2 * thickness, h1 + 2
+				* thickness, 1);
+		int value;
+		for (int i = 0; i < w1 + 2 * thickness; i++) {
+			for (int j = 0; j < h1 + 2 * thickness; j++) {
+				boolean left = (i < thickness);
+				boolean right = (i >= w1 + thickness);
+				boolean top = (j < thickness);
+				boolean bottom = (j >= h1 + thickness);
+				if (left || right || top || bottom) {
+					value = rgbValue;
+					framed.setRGB(i, j, value);
+				} else {
+					value = this.original.getRGB(i - thickness, j - thickness);
+					framed.setRGB(i, j, value);
+				}
+			}
+		}
+		return framed;
+	}
 	// TODO: Criar três métodos de moldura
 
 }

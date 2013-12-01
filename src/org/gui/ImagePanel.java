@@ -24,5 +24,13 @@ public class ImagePanel extends JPanel {
 		g.drawImage(imageToShow, 0, 0, null);
 	}
 	
+	public void setImage(BufferedImage bi){
+		imageToShow = bi;
+	}
+
+	public BufferedImage getImage() {
+		return imageToShow;
+	}
+	
 	
 }
