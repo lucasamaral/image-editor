@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
+import org.listeners.effects.FrameImageListener;
 import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
 import org.listeners.effects.OldImageListener;
@@ -76,6 +77,7 @@ public class AppScreen extends JFrame {
 		this.buttonPanel.getGrayButton().addActionListener(new GrayImageListener(this));
 		this.buttonPanel.getOldButton().addActionListener(new OldImageListener(this));
 		this.buttonPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
+		this.buttonPanel.getFrameButton().addActionListener(new FrameImageListener(this));
 	}
 
 	private BufferedImage readImage(String name) {

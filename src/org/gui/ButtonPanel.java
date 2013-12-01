@@ -11,7 +11,9 @@ public class ButtonPanel extends JPanel {
 	private JButton grayButton;
 	private JButton oldButton;
 	private JButton negativeButton;
+	private JButton frameButton;
 	
+
 	public ButtonPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -21,9 +23,12 @@ public class ButtonPanel extends JPanel {
 		
 		negativeButton = new JButton("Negativo");
 		
+		frameButton = new JButton("Moldura");
+		
 		add(grayButton);
 		add(oldButton);
 		add(negativeButton);
+		add(frameButton);
 	}
 
 	public JButton getGrayButton() {
@@ -38,5 +43,8 @@ public class ButtonPanel extends JPanel {
 		return negativeButton;
 	}
 	
+	public JButton getFrameButton() {
+		return frameButton;
+	}
 
 }
