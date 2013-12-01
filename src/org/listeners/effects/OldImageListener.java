@@ -26,9 +26,7 @@ public class OldImageListener implements ActionListener {
 		JDialog dialog = sliderDialog.createDialog(app, "Intesidade do Envelhecimento");
 		dialog.setVisible(true);
 		String value = sliderDialog.getInputValue().toString();
-		if(sliderDialog.getInputValue() == JOptionPane.UNINITIALIZED_VALUE)
-			this.app.setImage(effect.oldImage(5));
-		else
+		if(sliderDialog.getInputValue() != JOptionPane.UNINITIALIZED_VALUE)
 			this.app.setImage(effect.oldImage(Integer.parseInt(value)));
 	}
 

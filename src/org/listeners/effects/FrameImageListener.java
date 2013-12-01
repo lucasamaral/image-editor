@@ -1,7 +1,10 @@
 package org.listeners.effects;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JColorChooser;
 
 import org.gui.AppScreen;
 import org.transform.Effects;
@@ -18,8 +21,9 @@ public class FrameImageListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Effects effect = new Effects(app.getImage());
-		
-		this.app.setImage(effect.addFrame(200, 5));
+		Color borderColor = JColorChooser.showDialog(app, "Escolha a cor da borda", null);
+		if(borderColor != null)
+			this.app.setImage(effect.addFrame(borderColor.getRGB(), 5));
 	}
 
 }
