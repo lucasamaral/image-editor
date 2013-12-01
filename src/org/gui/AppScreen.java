@@ -1,5 +1,6 @@
 package org.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -36,19 +37,22 @@ public class AppScreen extends JFrame {
 	}
 
 	private void initEverything() {
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setPreferredSize(new Dimension(800, 600));
 		BufferedImage original = readImage("tnt.jpg");
 		this.effect = new Effects(original);
 		this.imagePanel = new ImagePanel(original);
 		
 		getContentPane().add(this.imagePanel);
-		
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		JMenuBar blueMenuBar = new JMenuBar();
 		blueMenuBar.setOpaque(true);
 		blueMenuBar.setBackground(new Color(43, 43, 43));
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));
 		setJMenuBar(blueMenuBar);
+		
+		ButtonPanel buttonPanel = new ButtonPanel();
+		add(buttonPanel, BorderLayout.WEST);
 
 		pack();
 		setVisible(true);
