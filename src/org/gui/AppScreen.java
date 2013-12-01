@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
@@ -89,8 +88,6 @@ public class AppScreen extends JFrame {
 		this.leftPanel.getBrightnessSlider().addChangeListener(new BrightnessChangedListener(this));
 	}
 	
-//	public 
-
 	private BufferedImage readImage(String name) {
 		File input = new File(name);
 		try {
