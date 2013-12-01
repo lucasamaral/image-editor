@@ -157,6 +157,5 @@ public class Effects {
 		}
 		return framed;
 	}
-	// TODO: Criar três métodos de moldura
 
 }

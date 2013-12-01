@@ -18,6 +18,8 @@ import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
+import org.listeners.RotClockImageListener;
+import org.listeners.RotCounterImageListener;
 import org.listeners.effects.FrameImageListener;
 import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
@@ -80,6 +82,8 @@ public class AppScreen extends JFrame {
 		this.buttonPanel.getOldButton().addActionListener(new OldImageListener(this));
 		this.buttonPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
 		this.buttonPanel.getFrameButton().addActionListener(new FrameImageListener(this));
+		this.buttonPanel.getRotateClockwise().addActionListener(new RotClockImageListener(this));
+		this.buttonPanel.getRotateCounterClock().addActionListener(new RotCounterImageListener(this));
 	}
 
 	private BufferedImage readImage(String name) {

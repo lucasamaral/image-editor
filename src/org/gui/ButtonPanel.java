@@ -12,23 +12,26 @@ public class ButtonPanel extends JPanel {
 	private JButton oldButton;
 	private JButton negativeButton;
 	private JButton frameButton;
+	private JButton rotateClockwise;
+	private JButton rotateCounterClock;
 	
 
 	public ButtonPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		grayButton = new JButton("Escala de Cinza");
-		
 		oldButton = new JButton("Envelhecer");
-		
 		negativeButton = new JButton("Negativo");
-		
 		frameButton = new JButton("Moldura");
+		rotateClockwise = new JButton("Girar sentido horário");
+		rotateCounterClock = new JButton("Girar sentido anti-horário");
 		
 		add(grayButton);
 		add(oldButton);
 		add(negativeButton);
 		add(frameButton);
+		add(rotateClockwise);
+		add(rotateCounterClock);
 	}
 
 	public JButton getGrayButton() {
@@ -45,6 +48,14 @@ public class ButtonPanel extends JPanel {
 	
 	public JButton getFrameButton() {
 		return frameButton;
+	}
+
+	public JButton getRotateClockwise() {
+		return rotateClockwise;
+	}
+
+	public JButton getRotateCounterClock() {
+		return rotateCounterClock;
 	}
 
 }
