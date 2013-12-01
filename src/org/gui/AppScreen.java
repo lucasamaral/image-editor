@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
@@ -49,12 +50,14 @@ public class AppScreen extends JFrame {
 		getContentPane().add(this.imagePanel);
 
 		JMenuBar blueMenuBar = new JMenuBar();
-		JMenu loadImage = new JMenu("Carregar Imagem");
-		loadImage.addMenuListener(new MenuLoadImageListener(this));
-		JMenu saveImage = new JMenu("Salvar Imagem");
-		saveImage.addMenuListener(new MenuSaveImageListener(this));
-		blueMenuBar.add(loadImage);
-		blueMenuBar.add(saveImage);
+		JMenu file = new JMenu("Arquivo");
+		JMenuItem loadImage = new JMenuItem("Carregar Imagem");
+		loadImage.addActionListener(new MenuLoadImageListener(this));
+		JMenuItem saveImage = new JMenuItem("Salvar Imagem");
+		saveImage.addActionListener(new MenuSaveImageListener(this));
+		file.add(loadImage);
+		file.add(saveImage);
+		blueMenuBar.add(file);
 		blueMenuBar.setOpaque(true);
 		blueMenuBar.setBackground(new Color(43, 43, 43));
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));

@@ -1,5 +1,7 @@
 package org.listeners;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -10,7 +12,7 @@ import javax.swing.event.MenuListener;
 
 import org.gui.AppScreen;
 
-public class MenuSaveImageListener implements MenuListener {
+public class MenuSaveImageListener implements ActionListener {
 
 	private AppScreen ap;
 
@@ -19,19 +21,7 @@ public class MenuSaveImageListener implements MenuListener {
 	}
 
 	@Override
-	public void menuCanceled(MenuEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void menuDeselected(MenuEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void menuSelected(MenuEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		final JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showSaveDialog(ap);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {

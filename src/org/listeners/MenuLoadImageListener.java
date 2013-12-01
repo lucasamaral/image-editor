@@ -10,7 +10,7 @@ import javax.swing.event.MenuListener;
 
 import org.gui.AppScreen;
 
-public class MenuLoadImageListener implements MenuListener {
+public class MenuLoadImageListener implements ActionListener {
 
 	private AppScreen ap;
 
@@ -19,19 +19,7 @@ public class MenuLoadImageListener implements MenuListener {
 	}
 
 	@Override
-	public void menuCanceled(MenuEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuDeselected(MenuEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuSelected(MenuEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		final JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showOpenDialog(ap);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
