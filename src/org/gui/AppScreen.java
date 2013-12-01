@@ -14,12 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
 import org.listeners.RotClockImageListener;
 import org.listeners.RotCounterImageListener;
+import org.listeners.effects.BrightnessChangedListener;
 import org.listeners.effects.FrameImageListener;
 import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
@@ -32,7 +34,7 @@ public class AppScreen extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private ImagePanel imagePanel;
-	private ButtonPanel buttonPanel;
+	private LeftPanel leftPanel;
 
 	public AppScreen() {
 		initEverything();
@@ -54,7 +56,7 @@ public class AppScreen extends JFrame {
 		this.imagePanel = new ImagePanel(original);
 
 		getContentPane().add(this.imagePanel);
-
+		
 		JMenuBar blueMenuBar = new JMenuBar();
 		JMenu file = new JMenu("Arquivo");
 		JMenuItem loadImage = new JMenuItem("Carregar Imagem");
@@ -69,22 +71,25 @@ public class AppScreen extends JFrame {
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));
 		setJMenuBar(blueMenuBar);
 
-		this.buttonPanel = new ButtonPanel();
+		this.leftPanel = new LeftPanel();
 		addActionsToButtons();
-		add(this.buttonPanel, BorderLayout.WEST);
-
+		add(this.leftPanel, BorderLayout.WEST);
+		
 		pack();
 		setVisible(true);
 	}
 
 	private void addActionsToButtons() {
-		this.buttonPanel.getGrayButton().addActionListener(new GrayImageListener(this));
-		this.buttonPanel.getOldButton().addActionListener(new OldImageListener(this));
-		this.buttonPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
-		this.buttonPanel.getFrameButton().addActionListener(new FrameImageListener(this));
-		this.buttonPanel.getRotateClockwise().addActionListener(new RotClockImageListener(this));
-		this.buttonPanel.getRotateCounterClock().addActionListener(new RotCounterImageListener(this));
+		this.leftPanel.getGrayButton().addActionListener(new GrayImageListener(this));
+		this.leftPanel.getOldButton().addActionListener(new OldImageListener(this));
+		this.leftPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
+		this.leftPanel.getFrameButton().addActionListener(new FrameImageListener(this));
+		this.leftPanel.getRotateClockwise().addActionListener(new RotClockImageListener(this));
+		this.leftPanel.getRotateCounterClock().addActionListener(new RotCounterImageListener(this));
+		this.leftPanel.getBrightnessSlider().addChangeListener(new BrightnessChangedListener(this));
 	}
+	
+//	public 
 
 	private BufferedImage readImage(String name) {
 		File input = new File(name);

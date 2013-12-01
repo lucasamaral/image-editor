@@ -1,10 +1,14 @@
 package org.gui;
 
+import java.awt.FlowLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
-public class ButtonPanel extends JPanel {
+public class LeftPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -14,9 +18,10 @@ public class ButtonPanel extends JPanel {
 	private JButton frameButton;
 	private JButton rotateClockwise;
 	private JButton rotateCounterClock;
+	private JSlider brightnessSlider;
 	
 
-	public ButtonPanel() {
+	public LeftPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		grayButton = new JButton("Escala de Cinza");
@@ -26,12 +31,24 @@ public class ButtonPanel extends JPanel {
 		rotateClockwise = new JButton("Girar sentido horário");
 		rotateCounterClock = new JButton("Girar sentido anti-horário");
 		
+		
+		
 		add(grayButton);
 		add(oldButton);
 		add(negativeButton);
 		add(frameButton);
 		add(rotateClockwise);
 		add(rotateCounterClock);
+		
+		brightnessSlider = new JSlider(1, 100);
+		brightnessSlider.setOrientation(JSlider.VERTICAL);
+		brightnessSlider.setValue(1);
+		
+		JPanel pan = new JPanel();
+		pan.setLayout(new FlowLayout(FlowLayout.CENTER));
+		pan.add(brightnessSlider);
+		pan.add(new JLabel("Brilho"));
+		add(pan);
 	}
 
 	public JButton getGrayButton() {
@@ -58,4 +75,8 @@ public class ButtonPanel extends JPanel {
 		return rotateCounterClock;
 	}
 
+	public JSlider getBrightnessSlider() {
+		return brightnessSlider;
+	}
+	
 }
