@@ -23,6 +23,8 @@ import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
 import org.listeners.effects.OldImageListener;
 
+
+
 public class AppScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
