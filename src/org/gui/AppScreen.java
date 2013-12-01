@@ -18,14 +18,16 @@ import javax.swing.WindowConstants;
 
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
-import org.transform.Effects;
+import org.listeners.effects.GrayImageListener;
+import org.listeners.effects.NegativeImageListener;
+import org.listeners.effects.OldImageListener;
 
 public class AppScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private Effects effect;
 	private ImagePanel imagePanel;
+	private ButtonPanel buttonPanel;
 
 	public AppScreen() {
 		initEverything();
@@ -44,7 +46,6 @@ public class AppScreen extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(800, 600));
 		BufferedImage original = readImage("tnt.jpg");
-		this.effect = new Effects(original);
 		this.imagePanel = new ImagePanel(original);
 
 		getContentPane().add(this.imagePanel);
@@ -63,11 +64,18 @@ public class AppScreen extends JFrame {
 		blueMenuBar.setPreferredSize(new Dimension(200, 20));
 		setJMenuBar(blueMenuBar);
 
-		ButtonPanel buttonPanel = new ButtonPanel();
-		add(buttonPanel, BorderLayout.WEST);
+		this.buttonPanel = new ButtonPanel();
+		addActionsToButtons();
+		add(this.buttonPanel, BorderLayout.WEST);
 
 		pack();
 		setVisible(true);
+	}
+
+	private void addActionsToButtons() {
+		this.buttonPanel.getGrayButton().addActionListener(new GrayImageListener(this));
+		this.buttonPanel.getOldButton().addActionListener(new OldImageListener(this));
+		this.buttonPanel.getNegativeButton().addActionListener(new NegativeImageListener(this));
 	}
 
 	private BufferedImage readImage(String name) {
@@ -94,6 +102,11 @@ public class AppScreen extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setImage(BufferedImage img){
+		this.imagePanel.setImage(img);
+		this.imagePanel.repaint();
 	}
 	
 	public BufferedImage getImage(){

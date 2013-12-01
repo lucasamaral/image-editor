@@ -25,6 +25,18 @@ public class ButtonPanel extends JPanel {
 		add(oldButton);
 		add(negativeButton);
 	}
+
+	public JButton getGrayButton() {
+		return grayButton;
+	}
+
+	public JButton getOldButton() {
+		return oldButton;
+	}
+
+	public JButton getNegativeButton() {
+		return negativeButton;
+	}
 	
 
 }
