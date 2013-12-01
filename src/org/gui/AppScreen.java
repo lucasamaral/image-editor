@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.WindowConstants;
 
 import org.transform.Effects;
+import org.transform.ImageTransform;
 
 public class AppScreen extends JFrame {
 
