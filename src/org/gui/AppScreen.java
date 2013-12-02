@@ -3,6 +3,8 @@ package org.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -17,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 import org.listeners.CropListener;
@@ -65,7 +68,7 @@ public class AppScreen extends JFrame {
 		getContentPane().add(this.imagePanel);
 
 		JMenuBar blueMenuBar = new JMenuBar();
-		
+
 		JMenu file = new JMenu("Arquivo");
 		JMenuItem loadImage = new JMenuItem("Carregar Imagem");
 		JMenuItem saveImage = new JMenuItem("Salvar Imagem");
@@ -73,12 +76,15 @@ public class AppScreen extends JFrame {
 		saveImage.addActionListener(new MenuSaveImageListener(this));
 		file.add(loadImage);
 		file.add(saveImage);
-		
+
 		JMenu edit = new JMenu("Editar");
 		JMenuItem undo = new JMenuItem("Desfazer");
+		undo.setMnemonic(KeyEvent.VK_Z);
+		undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+				ActionEvent.CTRL_MASK));
 		undo.addActionListener(new MenuUndoListener(this));
 		edit.add(undo);
-		
+
 		blueMenuBar.add(file);
 		blueMenuBar.add(edit);
 		blueMenuBar.setOpaque(true);
@@ -176,7 +182,7 @@ public class AppScreen extends JFrame {
 
 	public void undo() {
 		System.out.println("Really undoing");
-		if(!oldImages.empty()){
+		if (!oldImages.empty()) {
 			System.out.println("Really really undoing");
 			BufferedImage lastImage = oldImages.pop();
 			this.imagePanel.setImage(lastImage);

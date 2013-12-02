@@ -27,7 +27,7 @@ public class BrightnessChangedListener implements ChangeListener {
 			float factor = 1.0f + bright/100.0f; 
 			RescaleOp op = new RescaleOp(factor, 0, null);
 			BufferedImage image = app.getImage();
-			image = op.filter(image, image);
+			image = op.filter(image, null);
 			app.setImage(image);
 		}
 	}
