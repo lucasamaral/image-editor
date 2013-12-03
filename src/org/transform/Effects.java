@@ -22,10 +22,10 @@ public class Effects {
 		for (int i = 0; i < w1; i++) {
 			for (int j = 0; j < h1; j++) {
 				value = this.original.getRGB(i, j);
-				alpha = get_alpha(value);
-				r = get_red(value);
-				g = get_green(value);
-				b = get_blue(value);
+				alpha = getAlpha(value);
+				r = getRed(value);
+				g = getGreen(value);
+				b = getBlue(value);
 
 				value = (r + g + b) / 3;
 				r = g = b = value;
@@ -41,19 +41,19 @@ public class Effects {
 		return rgb;
 	}
 
-	public int get_alpha(int rgb) {
+	public int getAlpha(int rgb) {
 		return (rgb >> 24) & 0xFF;
 	}
 
-	public int get_red(int rgb) {
+	public int getRed(int rgb) {
 		return (rgb >> 16) & 0xFF;
 	}
 
-	public int get_green(int rgb) {
+	public int getGreen(int rgb) {
 		return (rgb >> 8) & 0xFF;
 	}
 
-	public int get_blue(int rgb) {
+	public int getBlue(int rgb) {
 		return rgb & 0xFF;
 	}
 
@@ -114,16 +114,16 @@ public class Effects {
 
 		int w1 = this.original.getWidth();
 		int h1 = this.original.getHeight();
-		
+
 		BufferedImage negative = new BufferedImage(w1, h1, 1);
 		int value, alpha, r, g, b;
 		for (int i = 0; i < w1; i++) {
 			for (int j = 0; j < h1; j++) {
 				value = this.original.getRGB(i, j);
-				alpha = get_alpha(value);
-				r = 255 - get_red(value);
-				g = 255 - get_green(value);
-				b = 255 - get_blue(value);
+				alpha = getAlpha(value);
+				r = 255 - getRed(value);
+				g = 255 - getGreen(value);
+				b = 255 - getBlue(value);
 
 				value = createRgb(alpha, r, g, b);
 				negative.setRGB(i, j, value);
@@ -133,10 +133,10 @@ public class Effects {
 	}
 
 	public BufferedImage addFrame(int rgbValue, int thickness) {
-		
+
 		int w1 = this.original.getWidth();
 		int h1 = this.original.getHeight();
-		
+
 		BufferedImage framed = new BufferedImage(w1 + 2 * thickness, h1 + 2
 				* thickness, 1);
 		int value;

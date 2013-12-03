@@ -1,10 +1,8 @@
 package org.listeners;
 
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 
 import org.gui.AppScreen;
 import org.gui.ImagePanel;
@@ -14,7 +12,7 @@ public class CropListener implements MouseListener, MouseMotionListener {
 	private AppScreen ap;
 	private ImagePanel ip;
 	private int x1, x2, y1, y2;
-	private BufferedImage tempImage;
+//	private BufferedImage tempImage;
 
 	public CropListener(AppScreen ap, ImagePanel ip) {
 		this.ap = ap;
