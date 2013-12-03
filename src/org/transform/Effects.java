@@ -132,30 +132,4 @@ public class Effects {
 		return negative;
 	}
 
-	public BufferedImage addFrame(int rgbValue, int thickness) {
-		
-		int w1 = this.original.getWidth();
-		int h1 = this.original.getHeight();
-		
-		BufferedImage framed = new BufferedImage(w1 + 2 * thickness, h1 + 2
-				* thickness, 1);
-		int value;
-		for (int i = 0; i < w1 + 2 * thickness; i++) {
-			for (int j = 0; j < h1 + 2 * thickness; j++) {
-				boolean left = (i < thickness);
-				boolean right = (i >= w1 + thickness);
-				boolean top = (j < thickness);
-				boolean bottom = (j >= h1 + thickness);
-				if (left || right || top || bottom) {
-					value = rgbValue;
-					framed.setRGB(i, j, value);
-				} else {
-					value = this.original.getRGB(i - thickness, j - thickness);
-					framed.setRGB(i, j, value);
-				}
-			}
-		}
-		return framed;
-	}
-
 }

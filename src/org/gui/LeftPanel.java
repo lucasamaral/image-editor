@@ -16,6 +16,7 @@ public class LeftPanel extends JPanel {
 	private JButton oldButton;
 	private JButton negativeButton;
 	private JButton frameButton;
+	private JButton gradientFrameButton;
 	private JButton rotateClockwise;
 	private JButton rotateCounterClock;
 	private JButton toggleCrop;
@@ -29,6 +30,7 @@ public class LeftPanel extends JPanel {
 		oldButton = new JButton("Envelhecer");
 		negativeButton = new JButton("Negativo");
 		frameButton = new JButton("Moldura");
+		gradientFrameButton = new JButton("Moldura Gradiente");
 		rotateClockwise = new JButton("Girar sentido horário");
 		rotateCounterClock = new JButton("Girar sentido anti-horário");
 		toggleCrop = new JButton("Iniciar cropping");
@@ -39,6 +41,7 @@ public class LeftPanel extends JPanel {
 		add(oldButton);
 		add(negativeButton);
 		add(frameButton);
+		add(gradientFrameButton);
 		add(rotateClockwise);
 		add(rotateCounterClock);
 		add(toggleCrop);
@@ -68,6 +71,10 @@ public class LeftPanel extends JPanel {
 	
 	public JButton getFrameButton() {
 		return frameButton;
+	}
+	
+	public JButton getGradientFrameButton() {
+		return gradientFrameButton;
 	}
 
 	public JButton getRotateClockwise() {

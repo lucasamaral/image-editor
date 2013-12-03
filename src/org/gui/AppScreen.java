@@ -10,8 +10,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;
@@ -23,13 +21,14 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 import org.listeners.CropListener;
+import org.listeners.FrameImageListener;
+import org.listeners.GradientFrameImageListener;
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
 import org.listeners.MenuUndoListener;
 import org.listeners.RotClockImageListener;
 import org.listeners.RotCounterImageListener;
 import org.listeners.effects.BrightnessChangedListener;
-import org.listeners.effects.FrameImageListener;
 import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
 import org.listeners.effects.OldImageListener;
@@ -76,6 +75,8 @@ public class AppScreen extends JFrame {
 		saveImage.addActionListener(new MenuSaveImageListener(this));
 		file.add(loadImage);
 		file.add(saveImage);
+		saveImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				ActionEvent.CTRL_MASK));
 
 		JMenu edit = new JMenu("Editar");
 		JMenuItem undo = new JMenuItem("Desfazer");
@@ -115,6 +116,8 @@ public class AppScreen extends JFrame {
 				new NegativeImageListener(this));
 		this.leftPanel.getFrameButton().addActionListener(
 				new FrameImageListener(this));
+		this.leftPanel.getGradientFrameButton().addActionListener(
+				new GradientFrameImageListener(this));
 		this.leftPanel.getRotateClockwise().addActionListener(
 				new RotClockImageListener(this));
 		this.leftPanel.getRotateCounterClock().addActionListener(

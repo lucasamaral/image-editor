@@ -1,6 +1,9 @@
 package org.transform;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageTransform {
 
@@ -48,8 +51,69 @@ public class ImageTransform {
 
 			}
 		}
-
+		// image = fillBlacks(image);
 		return image.getSubimage(minX, minY, maxX - minX, maxY - minY);
+	}
+
+	private BufferedImage fillBlacks(BufferedImage image) {
+		BufferedImage res = new BufferedImage(image.getWidth(),
+				image.getHeight(), 1);
+		for (int i = 1; i < image.getWidth() - 1; i++) {
+			for (int j = 1; j < image.getHeight() - 1; j++) {
+				int c = image.getRGB(i, j);
+				if (c == Color.BLACK.getRGB()) {
+					int cc1 = image.getRGB(i + 1, j);
+					Color c1 = new Color(cc1);
+					int cc2 = image.getRGB(i - 1, j);
+					Color c2 = new Color(cc2);
+					int cc3 = image.getRGB(i, j + 1);
+					Color c3 = new Color(cc3);
+					int cc4 = image.getRGB(i, j - 1);
+					Color c4 = new Color(cc4);
+					int count = 0;
+					List<Color> n = new ArrayList<>();
+					if (!c1.equals(Color.BLACK)) {
+						count++;
+						n.add(c1);
+					}
+					if (!c2.equals(Color.BLACK)) {
+						count++;
+						n.add(c2);
+					}
+					if (!c3.equals(Color.BLACK)) {
+						count++;
+						n.add(c3);
+					}
+					if (!c1.equals(Color.BLACK)) {
+						count++;
+						n.add(c4);
+					}
+					if (count > 1) {
+						int newColor = mixture(n);
+						res.setRGB(i, j, newColor);
+					}
+				} else {
+					res.setRGB(i, j, c);
+				}
+			}
+		}
+		return res;
+	}
+
+	private int mixture(List<Color> n) {
+		int sred = 0;
+		int sblue = 0;
+		int sgreen = 0;
+		int salpha = 0;
+		for (Color c : n) {
+			sred += c.getRed();
+			sblue += c.getBlue();
+			sgreen += c.getGreen();
+			salpha += c.getAlpha();
+		}
+		Color no = new Color(sred / n.size(), sgreen / n.size(), sblue
+				/ n.size(), salpha / n.size());
+		return no.getRGB();
 	}
 
 	private int calculateRotatedX(int x, int y, double rotatingAngle) {
@@ -116,5 +180,31 @@ public class ImageTransform {
 		}
 		return framed;
 	}
-} // x, height-y-1,
 
+	public BufferedImage addFrame(BufferedImage original, int rgbValue,
+			int thickness) {
+
+		int w1 = original.getWidth();
+		int h1 = original.getHeight();
+
+		BufferedImage framed = new BufferedImage(w1 + 2 * thickness, h1 + 2
+				* thickness, 1);
+		int value;
+		for (int i = 0; i < w1 + 2 * thickness; i++) {
+			for (int j = 0; j < h1 + 2 * thickness; j++) {
+				boolean left = (i < thickness);
+				boolean right = (i >= w1 + thickness);
+				boolean top = (j < thickness);
+				boolean bottom = (j >= h1 + thickness);
+				if (left || right || top || bottom) {
+					value = rgbValue;
+					framed.setRGB(i, j, value);
+				} else {
+					value = original.getRGB(i - thickness, j - thickness);
+					framed.setRGB(i, j, value);
+				}
+			}
+		}
+		return framed;
+	}
+}
