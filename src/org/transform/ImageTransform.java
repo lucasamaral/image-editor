@@ -19,10 +19,10 @@ public class ImageTransform {
 				rotationCenterY, angle);
 		int rotatedX;
 		int rotatedY;
-		int maxY = -99999;
-		int maxX = -99999;
-		int minX = 99999;
-		int minY = 99999;
+		int maxY = Integer.MIN_VALUE;
+		int maxX = Integer.MIN_VALUE;
+		int minX = Integer.MAX_VALUE;
+		int minY = Integer.MAX_VALUE;
 		int centerY = image.getHeight() / 2 + 1;
 		int centerX = image.getWidth() / 2 + 1;
 
@@ -140,8 +140,7 @@ public class ImageTransform {
 
 	private BufferedImage initRotatedImage(BufferedImage givenImage,
 			int rotationCenterX, int rotationCenterY, double rotatingAngle) {
-		double maxR = -99999;
-		double minR = 99999;
+		double maxR = Integer.MIN_VALUE;
 		int maxX = givenImage.getWidth() - 1;
 		int maxY = givenImage.getHeight() - 1;
 		int minX = 0;

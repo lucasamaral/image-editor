@@ -22,10 +22,10 @@ public class Effects {
 		for (int i = 0; i < w1; i++) {
 			for (int j = 0; j < h1; j++) {
 				value = this.original.getRGB(i, j);
-				alpha = get_alpha(value);
-				r = get_red(value);
-				g = get_green(value);
-				b = get_blue(value);
+				alpha = getAlpha(value);
+				r = getRed(value);
+				g = getGreen(value);
+				b = getBlue(value);
 
 				value = (r + g + b) / 3;
 				r = g = b = value;
@@ -36,28 +36,28 @@ public class Effects {
 		return gray;
 	}
 
-	public int createRgb(int alpha, int r, int g, int b) {
+	private int createRgb(int alpha, int r, int g, int b) {
 		int rgb = (alpha << 24) + (r << 16) + (g << 8) + b;
 		return rgb;
 	}
 
-	public int get_alpha(int rgb) {
+	private int getAlpha(int rgb) {
 		return (rgb >> 24) & 0xFF;
 	}
 
-	public int get_red(int rgb) {
+	private int getRed(int rgb) {
 		return (rgb >> 16) & 0xFF;
 	}
 
-	public int get_green(int rgb) {
+	private int getGreen(int rgb) {
 		return (rgb >> 8) & 0xFF;
 	}
 
-	public int get_blue(int rgb) {
+	private int getBlue(int rgb) {
 		return rgb & 0xFF;
 	}
 
-	public static BufferedImage deepCopy(BufferedImage bi) {
+	private static BufferedImage deepCopy(BufferedImage bi) {
 		ColorModel cm = bi.getColorModel();
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		WritableRaster raster = bi.copyData(null);
@@ -114,16 +114,16 @@ public class Effects {
 
 		int w1 = this.original.getWidth();
 		int h1 = this.original.getHeight();
-		
+
 		BufferedImage negative = new BufferedImage(w1, h1, 1);
 		int value, alpha, r, g, b;
 		for (int i = 0; i < w1; i++) {
 			for (int j = 0; j < h1; j++) {
 				value = this.original.getRGB(i, j);
-				alpha = get_alpha(value);
-				r = 255 - get_red(value);
-				g = 255 - get_green(value);
-				b = 255 - get_blue(value);
+				alpha = getAlpha(value);
+				r = 255 - getRed(value);
+				g = 255 - getGreen(value);
+				b = 255 - getBlue(value);
 
 				value = createRgb(alpha, r, g, b);
 				negative.setRGB(i, j, value);

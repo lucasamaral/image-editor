@@ -62,6 +62,8 @@ public class AppScreen extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(800, 600));
 		BufferedImage original = readImage("tnt.jpg");
+		if (original == null)
+			original = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 		this.imagePanel = new ImagePanel(original);
 
 		getContentPane().add(this.imagePanel);
@@ -135,7 +137,6 @@ public class AppScreen extends JFrame {
 		} catch (IOException e) {
 			System.out.println("Não foi possível ler a imagem com nome: "
 					+ name);
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -149,7 +150,6 @@ public class AppScreen extends JFrame {
 			BufferedImage bi = imageFromFile(f);
 			setImage(bi);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
