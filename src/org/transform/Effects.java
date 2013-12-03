@@ -36,28 +36,28 @@ public class Effects {
 		return gray;
 	}
 
-	public int createRgb(int alpha, int r, int g, int b) {
+	private int createRgb(int alpha, int r, int g, int b) {
 		int rgb = (alpha << 24) + (r << 16) + (g << 8) + b;
 		return rgb;
 	}
 
-	public int getAlpha(int rgb) {
+	private int getAlpha(int rgb) {
 		return (rgb >> 24) & 0xFF;
 	}
 
-	public int getRed(int rgb) {
+	private int getRed(int rgb) {
 		return (rgb >> 16) & 0xFF;
 	}
 
-	public int getGreen(int rgb) {
+	private int getGreen(int rgb) {
 		return (rgb >> 8) & 0xFF;
 	}
 
-	public int getBlue(int rgb) {
+	private int getBlue(int rgb) {
 		return rgb & 0xFF;
 	}
 
-	public static BufferedImage deepCopy(BufferedImage bi) {
+	private static BufferedImage deepCopy(BufferedImage bi) {
 		ColorModel cm = bi.getColorModel();
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		WritableRaster raster = bi.copyData(null);
