@@ -26,6 +26,7 @@ import org.listeners.GradientFrameImageListener;
 import org.listeners.MenuLoadImageListener;
 import org.listeners.MenuSaveImageListener;
 import org.listeners.MenuUndoListener;
+import org.listeners.PolygonalCropListener;
 import org.listeners.RotClockImageListener;
 import org.listeners.RotCounterImageListener;
 import org.listeners.effects.BrightnessChangedListener;
@@ -33,6 +34,7 @@ import org.listeners.effects.GrayImageListener;
 import org.listeners.effects.NegativeImageListener;
 import org.listeners.effects.OldImageListener;
 import org.listeners.effects.ToggleCropListener;
+import org.listeners.effects.TogglePolygonalCropListener;
 import org.transform.ImageTransform;
 
 public class AppScreen extends JFrame {
@@ -44,6 +46,7 @@ public class AppScreen extends JFrame {
 	private Stack<BufferedImage> oldImages = new Stack<>();
 
 	private boolean cropping;
+	private boolean polygonalCropping;
 
 	public AppScreen() {
 		initEverything();
@@ -96,9 +99,12 @@ public class AppScreen extends JFrame {
 		setJMenuBar(blueMenuBar);
 
 		CropListener cl = new CropListener(this, this.imagePanel);
+		PolygonalCropListener cp = new PolygonalCropListener(this, this.imagePanel);
 
 		this.imagePanel.addMouseListener(cl);
 		this.imagePanel.addMouseMotionListener(cl);
+		this.imagePanel.addMouseListener(cp);
+		this.imagePanel.addMouseMotionListener(cp);
 		this.imagePanel.setBackground(Color.GRAY);
 
 		this.leftPanel = new LeftPanel();
@@ -128,6 +134,8 @@ public class AppScreen extends JFrame {
 				new BrightnessChangedListener(this));
 		this.leftPanel.getToggleCrop().addActionListener(
 				new ToggleCropListener(this, this.leftPanel.getToggleCrop()));
+		this.leftPanel.getTogglePolygonalCrop().addActionListener(
+				new TogglePolygonalCropListener(this, this.leftPanel.getTogglePolygonalCrop()));
 	}
 
 	private BufferedImage readImage(String name) {
@@ -182,6 +190,10 @@ public class AppScreen extends JFrame {
 	public void toggleCropping() {
 		cropping = !cropping;
 	}
+	
+	public void togglePolygonalCropping() {
+		polygonalCropping = !polygonalCropping;
+	}
 
 	public void undo() {
 		System.out.println("Really undoing");
@@ -191,6 +203,15 @@ public class AppScreen extends JFrame {
 			this.imagePanel.setImage(lastImage);
 			this.imagePanel.repaint();
 		}
+	}
+
+	public boolean isPolygonalCropping() {
+		return polygonalCropping;
+	}
+
+	public void finishPolygonalCropping() {
+		polygonalCropping = false;
+		this.leftPanel.getTogglePolygonalCrop().setText("Iniciar Cropping poligonal");
 	}
 
 }

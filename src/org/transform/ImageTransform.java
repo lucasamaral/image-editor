@@ -1,7 +1,9 @@
 package org.transform;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class ImageTransform {
 
 			}
 		}
-		// image = fillBlacks(image);
+		//image = fillBlacks(image);
 		return image.getSubimage(minX, minY, maxX - minX, maxY - minY);
 	}
 
@@ -205,5 +207,12 @@ public class ImageTransform {
 			}
 		}
 		return framed;
+	}
+
+	public BufferedImage polygonalCrop(BufferedImage image, List<Point> points) {
+		Poligono p = new Poligono(points);
+		BufferedImage res = p.process(image);
+		points.clear();
+		return res;
 	}
 }

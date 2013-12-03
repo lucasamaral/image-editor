@@ -2,6 +2,7 @@ package org.gui;
 
 import java.awt.FlowLayout;
 
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ public class LeftPanel extends JPanel {
 	private JButton rotateCounterClock;
 	private JButton toggleCrop;
 	private JSlider brightnessSlider;
+	private JButton togglePolygonalCrop;
 	
 
 	public LeftPanel() {
@@ -34,6 +36,7 @@ public class LeftPanel extends JPanel {
 		rotateClockwise = new JButton("Girar sentido horário");
 		rotateCounterClock = new JButton("Girar sentido anti-horário");
 		toggleCrop = new JButton("Iniciar cropping");
+		togglePolygonalCrop = new JButton("Iniciar cropping poligonal");
 		
 		
 		
@@ -45,6 +48,7 @@ public class LeftPanel extends JPanel {
 		add(rotateClockwise);
 		add(rotateCounterClock);
 		add(toggleCrop);
+		add(togglePolygonalCrop);
 		
 		brightnessSlider = new JSlider(1, 100);
 		brightnessSlider.setOrientation(JSlider.VERTICAL);
@@ -91,6 +95,10 @@ public class LeftPanel extends JPanel {
 	
 	public JButton getToggleCrop(){
 		return toggleCrop;
+	}
+
+	public JButton getTogglePolygonalCrop() {
+		return togglePolygonalCrop;
 	}
 	
 }
