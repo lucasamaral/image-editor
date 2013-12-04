@@ -53,7 +53,7 @@ public class ImageTransform {
 
 			}
 		}
-		//image = fillBlacks(image);
+		// image = fillBlacks(image);
 		return image.getSubimage(minX, minY, maxX - minX, maxY - minY);
 	}
 
@@ -171,6 +171,14 @@ public class ImageTransform {
 
 	public static BufferedImage cropImage(BufferedImage origina, int sx,
 			int sy, int width, int height) {
+		int w = origina.getWidth();
+		int h = origina.getHeight();
+		if (width < 0 || height < 0 || sx < 0 || sy < 0) {
+			return origina;
+		}
+		if (sx + width > w || sy + height > h) {
+			return origina;
+		}
 		BufferedImage framed = new BufferedImage(width, height, 1);
 		int value;
 		for (int i = sx; i < sx + width; i++) {
@@ -211,6 +219,13 @@ public class ImageTransform {
 
 	public BufferedImage polygonalCrop(BufferedImage image, List<Point> points) {
 		Poligono p = new Poligono(points);
+		int w = image.getWidth();
+		int h = image.getHeight();
+		for (Point poin : points) {
+			if (poin.x < 0 || poin.x > w || poin.y < 0 || poin.y > h) {
+				return image;
+			}
+		}
 		BufferedImage res = p.process(image);
 		points.clear();
 		return res;

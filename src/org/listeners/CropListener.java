@@ -12,7 +12,8 @@ public class CropListener implements MouseListener, MouseMotionListener {
 	private AppScreen ap;
 	private ImagePanel ip;
 	private int x1, x2, y1, y2;
-//	private BufferedImage tempImage;
+
+	// private BufferedImage tempImage;
 
 	public CropListener(AppScreen ap, ImagePanel ip) {
 		this.ap = ap;
@@ -75,9 +76,21 @@ public class CropListener implements MouseListener, MouseMotionListener {
 			ip.getGraphics().drawImage(ip.getImage(), 0, 0, null);
 			x2 = arg0.getX();
 			y2 = arg0.getY();
-			ip.getGraphics().drawRect(Math.min(x1, x2), Math.min(y1, y2),
-					Math.abs(x2 - x1), Math.abs(y2 - y1));
+			if (insideImage()) {
+				ip.getGraphics().drawRect(Math.min(x1, x2), Math.min(y1, y2),
+						Math.abs(x2 - x1), Math.abs(y2 - y1));
+			}
 		}
+	}
+
+	private boolean insideImage() {
+		int w = ap.getImage().getWidth();
+		int h = ap.getImage().getHeight();
+		if (x1 > 0 && x1 < w && x2 > 0 && x2 < w && y1 > 0 && y1 < h && y2 > 0
+				&& y2 < h) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
